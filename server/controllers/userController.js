@@ -29,7 +29,7 @@ userController.verifyUser = async (req, res, next) => {
       email,
       password,
     } = req.body;
-    const user = await User.findOne({email, password});
+    const user = await User.findOne({ email, password });
     res.locals.user = user;
     return next();
   } catch (error) {
@@ -38,7 +38,7 @@ userController.verifyUser = async (req, res, next) => {
       message: 'Error verifying user',
     });
   }
-}
+};
 
 userController.userInfo = async (req, res, next) => {
   try {
@@ -106,7 +106,7 @@ userController.matchTherapist = async (req, res, next) => {
     console.log('filtered matchterapist req.body', filtered);
     const obj = {
       "therapist": true,
-      "gender": gender_preference.toLowerCase(),
+      "gender": gender_preference,
     };
     filtered.forEach((e) => { obj[e] = true; });
     console.log('filtered object', obj);
@@ -130,13 +130,13 @@ userController.matchTherapist = async (req, res, next) => {
 
 userController.updateTherapists = async (req, res, next) => {
   try {
-    const {_id} = req.body;
+    const { _id } = req.body;
     await User.findOneAndUpdate({
       _id,
     },
     {
       $set: {
-        therapists: res.locals.matchTherapist
+        therapists: res.locals.matchTherapist,
       },
     });
     return next();
@@ -146,6 +146,6 @@ userController.updateTherapists = async (req, res, next) => {
       message: 'Error updating matched therapists',
     });
   }
-}
+};
 
 module.exports = userController;
